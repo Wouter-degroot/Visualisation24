@@ -114,6 +114,7 @@ def reset_dataframe():
     elif old_pos == 'Attacker':
         df = df_attackers_filtered.copy()
         df['highlighted'] = False
+    return {}
 def make_line_graph(val, selectedData, clickData):
     """
     :param val: The currently selected variables, to be filtered on is a list of strings
@@ -181,6 +182,7 @@ def make_graph_spider(pos, values, players_selected):
     global flag
     #old_pos is the previous position, so the dataframe can be resetted when a new position is chosen
     global old_pos
+    changed = True
     if flag is True or old_pos != pos:
         """
         If there is no position yet, or the position has been changed change the main dataframe to the 
@@ -199,13 +201,16 @@ def make_graph_spider(pos, values, players_selected):
         elif pos == 'Attacker':
             df = df_attackers_filtered.copy()
             df['highlighted'] = False
+        if not flag:
+            changed = False
         flag = False
+
     """
     Create a temporary dataframe, filtered to chosen values, sort these values by the mean of the values in descending order.
     Transpose the Dataframe so that px.line_polar can more easily calculate the figure,
     """
     amount_plots = 1
-    if players_selected is not None:
+    if players_selected is not None and changed:
         amount_plots = 2
 
     temp_df = df.copy()[values]
@@ -258,7 +263,7 @@ def make_graph_spider(pos, values, players_selected):
         name=temp_df['player'][2],
         opacity=0.3
     ), row=1, col=1)
-    if players_selected is not None:
+    if players_selected is not None and changed:
         fig.add_trace(go.Scatterpolar(
             r=temp_selected_t[0],
             theta=temp_selected_t.index,
