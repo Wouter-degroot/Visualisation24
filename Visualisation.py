@@ -2,64 +2,11 @@ import pandas as pd
 from plotly.subplots import make_subplots
 import plotly.graph_objs as go
 
-location = 'C:/Users/wglde/OneDrive/Documents/Visualisation/FIFA DataSet'
-# Match data
-df_match_data = pd.read_csv(location + '/Data/FIFA World Cup 2022 Match Data/data.csv', delimiter=',')
+df_attackers = pd.read_csv('df_attack', delimiter=',')
+df_midfielders = pd.read_csv('df_mid', delimiter=',')
+df_defenders = pd.read_csv('df_def', delimiter=',')
+df_keepers = pd.read_csv('df_keeper', delimiter=',')
 
-# Player data
-df_player_defense       = pd.read_csv(location + '/Data/FIFA World Cup 2022 Player Data/player_defense.csv', delimiter=',')
-df_player_gca           = pd.read_csv(location + '/Data/FIFA World Cup 2022 Player Data/player_gca.csv', delimiter=',')
-df_player_keepers       = pd.read_csv(location + '/Data/FIFA World Cup 2022 Player Data/player_keepers.csv', delimiter=',')
-df_player_keepersadv    = pd.read_csv(location + '/Data/FIFA World Cup 2022 Player Data/player_keepersadv.csv', delimiter=',')
-df_player_misc          = pd.read_csv(location + '/Data/FIFA World Cup 2022 Player Data/player_misc.csv', delimiter=',')
-df_player_passing       = pd.read_csv(location + '/Data/FIFA World Cup 2022 Player Data/player_passing.csv', delimiter=',')
-df_player_passing_types = pd.read_csv(location + '/Data/FIFA World Cup 2022 Player Data/player_passing_types.csv', delimiter=',')
-df_player_playingtime   = pd.read_csv(location + '/Data/FIFA World Cup 2022 Player Data/player_playingtime.csv', delimiter=',')
-df_player_possession    = pd.read_csv(location + '/Data/FIFA World Cup 2022 Player Data/player_possession.csv', delimiter=',')
-df_player_shooting      = pd.read_csv(location + '/Data/FIFA World Cup 2022 Player Data/player_shooting.csv', delimiter=',')
-df_player_stats         = pd.read_csv(location + '/Data/FIFA World Cup 2022 Player Data/player_stats.csv', delimiter=',')
-
-# Team data
-df_team_data        = pd.read_csv(location + '/Data/FIFA World Cup 2022 Team Data/team_data.csv', delimiter=',')
-df_team_group_stats = pd.read_csv(location + '/Data/FIFA World Cup 2022 Team Data/group_stats.csv', delimiter=',')
-"""
-Creates the Dataframes by merging relevant dataframes and then filtering out the values which we do not need.
-"""
-df_keepers = pd.merge(df_player_keepers, df_player_keepersadv, how='left')
-df_keepers = pd.merge(df_keepers, df_player_stats, how='left')
-df_keepers = df_keepers[df_keepers['position'] == 'GK']
-df_keepers = df_keepers[['player','minutes', 'gk_goals_against_per90', 'gk_save_pct', 'gk_clean_sheets_pct'
-                             ,'gk_pens_save_pct', 'gk_crosses_stopped_pct', 'gk_def_actions_outside_pen_area_per90'
-                             ,'gk_passes_completed_launched', 'gk_passes_pct_launched']]
-
-df_defenders = pd.merge(df_player_defense, df_player_misc, how='left')
-df_defenders = pd.merge(df_defenders, df_player_passing, how='left')
-df_defenders = pd.merge(df_defenders, df_player_stats, how='left')
-df_defenders = df_defenders[df_defenders['position'] == 'DF']
-df_defenders = df_defenders[['player','tackles_won', 'dribble_tackles', 'dribbled_past', 'blocks','interceptions'
-                             ,'clearances','ball_recoveries','aerials_won_pct', 'passes_pct'
-                             ,'minutes']]
-
-df_midfielders = pd.merge(df_player_defense, df_player_passing_types, how='left')
-df_midfielders = pd.merge(df_midfielders, df_player_misc, how='left')
-df_midfielders = pd.merge(df_midfielders, df_player_passing, how='left')
-df_midfielders = pd.merge(df_midfielders, df_player_possession, how='left')
-df_midfielders = pd.merge(df_midfielders, df_player_stats, how='left')
-df_midfielders = df_midfielders[df_midfielders['position'] == 'MF']
-df_midfielders = df_midfielders[['player','tackles_won', 'interceptions', 'crosses', 'ball_recoveries'
-                                 ,'passes_pct_short', 'passes_pct_medium', 'passes_pct_long',
-                                 'passes_into_final_third', 'dribbles_completed_pct', 'aerials_won_pct', 'minutes']]
-
-df_attackers = pd.merge(df_player_passing_types, df_player_passing, how='left')
-df_attackers = pd.merge(df_attackers, df_player_possession, how='left')
-df_attackers = pd.merge(df_attackers, df_player_shooting, how='left')
-df_attackers = pd.merge(df_attackers, df_player_stats, how='left')
-df_attackers = pd.merge(df_attackers, df_player_misc, how='left')
-df_attackers['xg/goals'] = df_attackers['xg']/df_attackers['goals']
-df_attackers['xg/goals'] = df_attackers['xg/goals'].fillna(0)
-df_attackers = df_attackers[df_attackers['position'] == 'FW']
-df_attackers = df_attackers[['player','crosses','passes_pct', 'dribbles_completed_pct', 'shots_on_target_pct', 'pens_made'
-                             ,'aerials_won_pct', 'minutes', 'xg/goals']]
 
 attacker_map = {
     'crossesq' : 'crosses',
