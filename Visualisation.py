@@ -114,7 +114,7 @@ def reset_dataframe():
     elif old_pos == 'Attacker':
         df = df_attackers_filtered.copy()
         df['highlighted'] = False
-    return {}
+
 def make_line_graph(val, selectedData, clickData):
     """
     :param val: The currently selected variables, to be filtered on is a list of strings
@@ -183,7 +183,7 @@ def make_graph_spider(pos, values, players_selected):
     #old_pos is the previous position, so the dataframe can be resetted when a new position is chosen
     global old_pos
     changed = True
-    if flag is True or old_pos != pos:
+    if flag or old_pos != pos:
         """
         If there is no position yet, or the position has been changed change the main dataframe to the 
         Chosen position
@@ -210,9 +210,9 @@ def make_graph_spider(pos, values, players_selected):
     Transpose the Dataframe so that px.line_polar can more easily calculate the figure,
     """
     amount_plots = 1
+    print(players_selected)
     if players_selected is not None and changed:
         amount_plots = 2
-
     temp_df = df.copy()[values]
     temp_df['player'] = df['player']
     temp_df['mean'] = temp_df.mean(axis=1, numeric_only=True)

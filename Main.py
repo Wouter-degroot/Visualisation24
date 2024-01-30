@@ -2,7 +2,7 @@ import dash
 from dash import Dash, dcc, html, Input, Output,callback, State, ctx
 from dash.exceptions import PreventUpdate
 import Visualisation
-
+old_df = 'a'
 variable_position = [Visualisation.keeper_keys.drop('player'), Visualisation.defender_keys.drop('player'),
                      Visualisation.midfielder_keys.drop('player'), Visualisation.attacker_keys.drop('player')]
 variable_players = [Visualisation.keeper_players, Visualisation.defender_players, Visualisation.midfielder_players,
@@ -74,14 +74,21 @@ def Create_line(value, selectedData, clickData, clicked):
     Input('line_graph', 'clickData'),
     Input('player_search', 'value')
 )
-def Create_fig(value, selectedData, clickData, player_selected):
-    if value is not None:
-        keys = [i+'q' for i in value]
-        fig = Visualisation.make_graph_spider(df,keys, player_selected)
-        return fig
-    else:
-        return PreventUpdate
 
+def Create_fig(value, selectedData, clickData, player_selected):
+    if player_selected is None and value is not None:
+        keys = [i + 'q' for i in value]
+        fig = Visualisation.make_graph_spider(df, keys, player_selected)
+        return fig
+    if player_selected[0] not in list(variable_players[['Keeper', 'Defender', 'Midfielder', 'Attacker'].index(df)]):
+        if value is not None:
+            keys = [i + 'q' for i in value]
+            fig = Visualisation.make_graph_spider(df, keys, None)
+            return fig
+    else:
+        keys = [i + 'q' for i in value]
+        fig = Visualisation.make_graph_spider(df, keys, player_selected)
+        return fig
 
 if __name__ == '__main__':
     app.run(debug=True)
