@@ -98,7 +98,8 @@ df_keepers_filtered = df_keepers.copy()
 df_midfielders_filtered = df_midfielders.copy()
 #creating 2 flags for the next function which have to stand outside the function to save their values
 flag = True
-old_pos = None
+old_pos = 'Keeper'
+df = df_keepers_filtered.copy()
 def reset_dataframe():
     global df
     if old_pos == 'Keeper':

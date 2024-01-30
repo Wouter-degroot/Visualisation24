@@ -15,10 +15,10 @@ app.layout = html.Div(children=[
     ['Keeper', 'Defender', 'Midfielder', 'Attacker'],
     placeholder='Select a position',
     id = 'dropdown_position'),
+    html.Button('Reset filters', id='reset_button', n_clicks=0),
     html.Div(["Select desired properties",dcc.Dropdown(id='multi-dynamic-dropdown', multi = True)]),
     html.Div(['Search for a player', dcc.Dropdown(id='player_search', multi=True)]),
     html.Div(dcc.Graph(id='spyder_graph')),
-    html.Button('Reset filters', id='reset_button', n_clicks=0),
     html.Div(dcc.Graph(id='line_graph'))
 ])
 
