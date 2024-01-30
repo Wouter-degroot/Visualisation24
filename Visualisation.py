@@ -6,7 +6,17 @@ df_attackers = pd.read_csv('df_attack', delimiter=',')
 df_midfielders = pd.read_csv('df_mid', delimiter=',')
 df_defenders = pd.read_csv('df_def', delimiter=',')
 df_keepers = pd.read_csv('df_keeper', delimiter=',')
-
+df_keepers = df_keepers[['player','minutes', 'gk_goals_against_per90', 'gk_save_pct', 'gk_clean_sheets_pct'
+                             ,'gk_pens_save_pct', 'gk_crosses_stopped_pct', 'gk_def_actions_outside_pen_area_per90'
+                             ,'gk_passes_completed_launched', 'gk_passes_pct_launched']]
+df_defenders = df_defenders[['player','tackles_won', 'dribble_tackles', 'dribbled_past', 'blocks','interceptions'
+                             ,'clearances','ball_recoveries','aerials_won_pct', 'passes_pct'
+                             ,'minutes']]
+df_midfielders = df_midfielders[['player','tackles_won', 'interceptions', 'crosses', 'ball_recoveries'
+                                 ,'passes_pct_short', 'passes_pct_medium', 'passes_pct_long',
+                                 'passes_into_final_third', 'dribbles_completed_pct', 'aerials_won_pct', 'minutes']]
+df_attackers = df_attackers[['player','crosses','passes_pct', 'dribbles_completed_pct', 'shots_on_target_pct', 'pens_made'
+                             ,'aerials_won_pct', 'minutes', 'xg/goals']]
 
 attacker_map = {
     'crossesq' : 'crosses',
