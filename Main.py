@@ -91,4 +91,4 @@ def Create_fig(value, selectedData, clickData, player_selected):
         return fig
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

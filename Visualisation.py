@@ -157,7 +157,7 @@ def make_line_graph(val, selectedData, clickData):
         j = i // imax
         #Adds the current value to the currently looked at subplot.
 
-        fig.add_trace(go.Scatter(x=temp_df.index, y=temp_df[val[i]], text=val[i], name=val[i], legend="legend2"),
+        fig.add_trace(go.Scatter(x=temp_df.index, y=temp_df[val[i]], text=val[i], name=val[i]),
                       row=j+1, col =i%imax+1)
         zoomed = False
         if selectedData is not None:
